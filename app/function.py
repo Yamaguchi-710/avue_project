@@ -106,6 +106,6 @@ def print_prj(list_route):
     # cv2.imshow('output', wall)
     # cv2.waitKey(0)
     cv2.imwrite(str(prj_path.joinpath('image/output.png')), wall)
-    cv2.imwrite('BASE_DIR' + str(prj_path.joinpath('static/media/output.png')), wall)
+    cv2.imwrite(str(prj_path.joinpath('static/media/output.png')), wall)
     # cv2.imwrite(str(prj_path.parent.parent.joinpath('static/media/output.png')), wall)
     
