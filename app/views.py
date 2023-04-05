@@ -4,7 +4,7 @@ from. import function
 
 
 class IndexView(View):
-    template_name = 'app/index.html'
+    # template_name = 'app/index.html'
     
     def get(self, request, *args, **kwargs):
         list_route = function.make()
