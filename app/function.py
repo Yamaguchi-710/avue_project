@@ -46,8 +46,8 @@ def route_set(input_sf,input_list):
                 h = h*(-1)
                 r = ((input_list[i][1]-list_route_f[k][1])**2 + h**2)**0.5
                 if r <= prm.REACH:
-                    ph = prm.REACH*0.6*2 - abs(h-prm.REACH*0.6)
-                    pr = prm.REACH*0.6*2 - abs(r-prm.REACH*0.6)
+                    ph = prm.REACH*0.5*2 - abs(h-prm.REACH*0.5)
+                    pr = prm.REACH*0.5*2 - abs(r-prm.REACH*0.5)
                     p = p + ph*pr
                     list_temp = [i,p]
                     list_p.append(list_temp)
