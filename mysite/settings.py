@@ -22,9 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
-#追記
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media_local"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -132,6 +129,9 @@ STATIC_URL = "static/"
 STATIC_ROOT = str(BASE_DIR / "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# #追記
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / "media_local"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

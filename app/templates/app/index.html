@@ -18,7 +18,8 @@
 
     <body>
         <p>
-            <img src="/media/output.png" />
+            {% comment %} <img src="/media/output.png" /> {% endcomment %}
+            <img src="{% static 'media/output.png' %}">
         </p>
         <p>
             <a href="https://avue-project-maker.onrender.com">refresh</a>
