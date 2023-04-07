@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 import cv2
 import pandas as pd
-import param as prm
+from . import param as prm
 
 prj_path = Path(__file__).resolve().parent
 
@@ -80,7 +80,7 @@ def make(name):
 
 # 描画
 def print_prj(list_route,name):
-    img = cv2.imread(str(prj_path.joinpath('image/'+name+'/avue.png')))
+    img = cv2.imread(str(prj_path.joinpath('image/'+name+'/input.png')))
     ret = prm.Border(name)
 
     h, w, _ = img.shape
