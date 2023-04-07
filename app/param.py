@@ -33,7 +33,7 @@ def Border(name):
         if y_ave[i] != min and y_ave[i] != max:
             mid = y_ave[i]
 
-    return min, mid, max
+    return max, mid, min
 
 
 #リーチ 

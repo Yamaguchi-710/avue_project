@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 import cv2
 import pandas as pd
-from . import param as prm
+import param as prm
 
 prj_path = Path(__file__).resolve().parent
 
@@ -67,11 +67,11 @@ def route_set(input_sf,input_list,name):
 
 # 関数
 def make(name):
-    list = make_list(prj_path.joinpath('csv/'+name+'/hold_list.csv'))
+    list = make_list(prj_path.joinpath('csv/'+name+'/hold_list.csv'),name)
 
     list_start_foot = start_foot_list(prm.Border(name),list,name)
 
-    sf = random.choice(list_start_foot,name)
+    sf = random.choice(list_start_foot)
 
     list_route = route_set(sf,list,name)
     
