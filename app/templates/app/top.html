@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>Project maker</title>
+  </head>
+  <body>
+    <h1 class="center">Project maker</h1>
+    <p>※当サイトは利用客である投稿主が個人的に製作したものであり、<br>
+      avue様の運営とは一切関係がありません。
+    </p>
+    <br>
+    <p>
+      {% comment %} <a href="https://avue-project-maker.onrender.com">refresh</a> {% endcomment %}
+      <a href="http://127.0.0.1:8000/avue">avue spray wall</a>
+      {% comment %} <a href="https://avue-project-maker.onrender.com/avue">refresh</a> {% endcomment %}
+    </p>
+    <p>
+      {% comment %} <a href="https://avue-project-maker.onrender.com">refresh</a> {% endcomment %}
+      <a href="http://127.0.0.1:8000/private">private wall</a>
+      {% comment %} <a href="https://avue-project-maker.onrender.com/private">refresh</a> {% endcomment %}
+    </p>
+  </body>
+</html>

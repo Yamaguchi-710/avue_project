@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        {% comment %} <link rel="stylesheet" href="index.css" /> {% endcomment %}
+        <title>avue</title>
+        <style>
+            img {
+                width: 100%;
+            }
+            *{
+                margin:0;
+              }
+        </style>
+    </head>
+
+    <body>
+        <p>
+            <img src="{% static 'media/avue/output.png' %}">
+        </p>
+        <p>
+            {% comment %} <a href="https://avue-project-maker.onrender.com">refresh</a> {% endcomment %}
+            <a href="http://127.0.0.1:8000/avue">refresh</a>
+            {% comment %} <a href="https://avue-project-maker.onrender.com/avue">refresh</a> {% endcomment %}
+        </p>
+        <p style="text-align: right">
+            <a href="#" onclick="history.back(-1);return false;">トップページに戻る</a>
+        </p>
+    </body>
+</html>

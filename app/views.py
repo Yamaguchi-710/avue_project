@@ -7,11 +7,16 @@ class IndexView(View):
     # template_name = 'app/index.html'
     
     def get(self, request, *args, **kwargs):
-        list_route = function.make()
-        function.print_prj(list_route)    
-        return render(request, "app/index.html")
+        return render(request, "app/top.html")
 
-
-# class IndexView(View):
-#     def get(self, request, *args, **kwargs):
-#         return render(request, "app/index.html")
+class Project_avue(View):    
+    def get(self, request, *args, **kwargs):
+        list_route = function.make("avue")
+        function.print_prj(list_route,"avue")    
+        return render(request, "app/avue.html")
+    
+class Project_private(View):    
+    def get(self, request, *args, **kwargs):
+        list_route = function.make("private")
+        function.print_prj(list_route,"private")    
+        return render(request, "app/private.html")
