@@ -20,7 +20,7 @@ class Project_avue_easy(View):
     def get(self, request, *args, **kwargs):
         list_route = function_easy.make("avue")
         function_easy.print_prj(list_route,"avue")    
-        return render(request, "app/avue.html")
+        return render(request, "app/avue_easy.html")
     
 class Project_private(View):    
     def get(self, request, *args, **kwargs):
