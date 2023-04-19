@@ -3,8 +3,8 @@ import random
 from pathlib import Path
 import cv2
 import pandas as pd
-# import param as prm
 from . import param as prm
+# import param as prm
 
 prj_path = Path(__file__).resolve().parent
 
@@ -23,53 +23,99 @@ def make_list(filename,name):
 
 
 #スタート足候補
-def start_foot_list(ret,input_list,name):
+def start_foot_list(border,input_list,name):
     list_start_foot_f = []
+    
     for i in range(prm.MAX_NUM(name)):
-        if input_list[i][2] >= ret[0]:
+        if input_list[i][2] >= border[0]:
             list_start_foot_f.append(i)
     return list_start_foot_f
 
 
 #ルートセット
 def route_set(input_sf,input_list,name):
+    
     list_route_f = [input_list[input_sf]]
     reach = prm.REACH(name)
-    ret = prm.Border(name)
+    border = prm.Border(name)
+    size = prm.size(name)
     list_p = []
+    list_s = []
     p = 0
     k = 0
     j = 0
+    start_flag = 0
+    goal_flag = 0
     while j <= prm.MAX_NUM(name):
         j = j+1
         for i in range(prm.MAX_NUM(name)):
             h = input_list[i][2]-list_route_f[k][2]
             if h <= 0:
-                h = h*(-1)
-                r = ((input_list[i][1]-list_route_f[k][1])**2 + h**2)**0.5
-                if r <= reach:
-                    ph = reach*0.5*2 - abs(h-reach*0.5)
-                    pr = reach*0.5*2 - abs(r-reach*0.5)
-                    p = p + ph*pr
-                    list_temp = [i,p]
-                    list_p.append(list_temp)
+                if (start_flag != 1 or input_list[i][3] < size[0]) and \
+                    (goal_flag != 1 or input_list[i][3] >= size[1]):
+                    h = h*(-1)
+                    r = ((input_list[i][1]-list_route_f[k][1])**2 + h**2)**0.5
+                    if r <= reach:
+                        if start_flag == 1 :
+                            ph = reach*0.3*2 - h
+                        else:
+                            ph = reach*0.3*2 - abs(h-reach*0.3)
+                        pr = reach*0.3*2 - abs(r-reach*0.3)
+                        p = p + ph*pr
+                        list_temp = [i,p]
+                        list_p.append(list_temp)
         rd = random.random()
         for l in range(len(list_p)):
             q = (list_p[l][1])/p
             if rd < q:      
                 list_route_f.append(input_list[list_p[l][0]])
+                if list_route_f[k][2] <= border[1]:
+                    if start_flag == 0:
+                        if list_route_f[k][3] < size[0]:
+                            list_s = [k]
+                            start_flag = 1
+                        else:
+                            list_s = [k,-1]
+                            start_flag = 2
+                    elif start_flag == 1:
+                        list_s.append(k)
+                        start_flag = 2
+                    else:
+                        pass
                 k = k+1
                 p = 0
                 list_p = []
                 break
-        if list_route_f[k][2] <= ret[2]:
-            break
-    return list_route_f
+        if list_route_f[k][2] <= border[2]:
+            if list_route_f[k][3] >= prm.size(name)[1]:
+                route_sum = k+1
+                break
+            else:
+                goal_flag = 1
+        
+    list_route = []
+    for i in range(route_sum):
+        if (i == list_s[0]) or (i == list_s[1]):
+            list_num = list_route_f[i]
+            list_num.append(1)
+            list_route.append(list_num)
+        elif (i == route_sum-1):
+            list_num = list_route_f[i]
+            list_num.append(2)
+            list_route.append(list_num)
+        else:
+            list_num = list_route_f[i]
+            list_num.append(0)
+            list_route.append(list_num)
+        
+    return list_route
+
 
 # 関数
 def make(name):
     list = make_list(prj_path.joinpath('csv/'+name+'/hold_list.csv'),name)
-
+    list = pd.read_csv(prj_path.joinpath('csv/'+name+'/hold_list.csv'),header=None).values.tolist()
+    
     list_start_foot = start_foot_list(prm.Border(name),list,name)
 
     sf = random.choice(list_start_foot)
@@ -82,29 +128,21 @@ def make(name):
 # 描画
 def print_prj(list_route,name):
     img = cv2.imread(str(prj_path.joinpath('image/'+name+'/input.png')))
-    ret = prm.Border(name)
 
     h, w, _ = img.shape
     resize_rate = 900/h
     wall = cv2.resize(img, (int(w*resize_rate), 900))
 
-    start_flag = 0
-    for i in range(len(list_route)-1):
+    for i in range(len(list_route)):
         x = list_route[i][1]
         y = list_route[i][2]
-        if start_flag ==0:
-            if y < ret[1]:
-                cv2.circle(wall, center=(x, y), radius=30, color=(0, 0, 255), thickness=3, lineType=cv2.LINE_4, shift=0)
-                start_flag = 1         
-            else:
-                cv2.circle(wall, center=(x, y), radius=20, color=(0, 255, 0), thickness=3, lineType=cv2.LINE_4, shift=0)
+        if list_route[i][4] ==1:
+            cv2.circle(wall, center=(x, y), radius=20, color=(0, 0, 255), thickness=3, lineType=cv2.LINE_4, shift=0)
+        elif list_route[i][4] ==2:
+            cv2.circle(wall, center=(x, y), radius=30, color=(255, 0, 0), thickness=3, lineType=cv2.LINE_4, shift=0)
         else:
             cv2.circle(wall, center=(x, y), radius=20, color=(0, 255, 0), thickness=3, lineType=cv2.LINE_4, shift=0)
 
-    
-    x = list_route[len(list_route)-1][1]
-    y = list_route[len(list_route)-1][2]
-    cv2.circle(wall, center=(x, y), radius=30, color=(255, 0, 0), thickness=3, lineType=cv2.LINE_4, shift=0)
         
     cv2.imwrite(str(prj_path.joinpath('image/'+name+'/output.png')), wall)
     cv2.imwrite(str(prj_path.joinpath('static/media/'+name+'/output.png')), wall)

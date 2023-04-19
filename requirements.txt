@@ -9,6 +9,6 @@ whitenoise
 opencv-python
 pandas
 
-decouple
+# decouple
 dj_database_url
-environ
+# environ

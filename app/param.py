@@ -9,6 +9,12 @@ def MAX_NUM(name):
     max = sum([1 for _ in open(prj_path.joinpath('csv/'+name+'/hold_list.csv'))])
     return max
 
+#スタートゴールサイズ
+def size(name):
+    list_csv = pd.read_csv(prj_path.joinpath('csv/'+name+'/hold_size.csv'),header=None).values.tolist()
+    list = [list_csv[0][3],list_csv[1][3]]
+    return list
+    
 
 #ゴール高さ下限、スタート足高さ上限、スタート高さ下限
 def Border(name):
@@ -32,7 +38,6 @@ def Border(name):
     for i in range(3):
         if y_ave[i] != min and y_ave[i] != max:
             mid = y_ave[i]
-
     return max, mid, min
 
 
