@@ -10,11 +10,26 @@ def MAX_NUM(name):
     return max
 
 #スタートゴールサイズ
-def size(name):
+def border_size(name):
     list_csv = pd.read_csv(prj_path.joinpath('csv/'+name+'/hold_size.csv'),header=None).values.tolist()
     list = [list_csv[0][3],list_csv[1][3]]
     return list
     
+
+def hold_size(name):
+    list_csv = pd.read_csv(prj_path.joinpath('csv/'+name+'/hold_list.csv'),header=None).values.tolist()
+    
+    max = list_csv[0][3]
+    min = list_csv[0][3]
+    sum = 0
+    for i in range(MAX_NUM(name)):
+        if max < list_csv[i][3]:
+            max = list_csv[i][3]
+        if min > list_csv[i][3]:
+            min = list_csv[i][3]
+        sum = sum + list_csv[i][3]
+    ave = int(sum/(MAX_NUM(name)))
+    return max, min, ave
 
 #ゴール高さ下限、スタート足高さ上限、スタート高さ下限
 def Border(name):

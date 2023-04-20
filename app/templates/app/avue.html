@@ -19,10 +19,18 @@
         <p>
             <img src="{% static 'media/avue/output.png' %}">
         </p>
-        <p><font size="5">
+
+        <form action="{% url 'avue' %}" method="post">
+            {% csrf_token %}
+            {{forms}}
+            <input type='submit' value="Remake">
+        </form>
+        
+        {% comment %} <p><font size="5"> {% endcomment %}
             {% comment %} <a href="http://127.0.0.1:8000/avue">Remake</a> {% endcomment %}
-            <a href="https://avue-project-maker.onrender.com/avue">Remake</a>
-        </font></p>
+            {% comment %} <a href="https://avue-project-maker.onrender.com/avue">Remake</a> {% endcomment %}
+        {% comment %} </font></p> {% endcomment %}
+
         <p style="text-align: right">
             <a href="https://avue-project-maker.onrender.com">トップページに戻る</a>
         </font></p>

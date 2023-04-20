@@ -33,12 +33,14 @@ def start_foot_list(border,input_list,name):
 
 
 #ルートセット
-def route_set(input_sf,input_list,name):
+def route_set(input_sf,input_list,name,list_forms):
     
     list_route_f = [input_list[input_sf]]
-    reach = prm.REACH(name)
+    reach = prm.REACH(name)*(list_forms[0]/170)
+    distri = 0.3*(list_forms[2]/30)
     border = prm.Border(name)
-    size = prm.size(name)
+    border_size = prm.border_size(name)
+    hold_size = prm.hold_size(name)
     list_p = []
     list_s = []
     p = 0
@@ -46,22 +48,35 @@ def route_set(input_sf,input_list,name):
     j = 0
     start_flag = 0
     goal_flag = 0
+    
     while j <= prm.MAX_NUM(name):
         j = j+1
         for i in range(prm.MAX_NUM(name)):
             h = input_list[i][2]-list_route_f[k][2]
-            if h <= 0:
-                if (start_flag != 1 or input_list[i][3] < size[0]) and \
-                    (goal_flag != 1 or input_list[i][3] >= size[1]):
+            if h < 0:
+                if (start_flag != 1 or input_list[i][3] < border_size[0]) and \
+                    (goal_flag != 1 or input_list[i][3] >= border_size[1]):
                     h = h*(-1)
                     r = ((input_list[i][1]-list_route_f[k][1])**2 + h**2)**0.5
                     if r <= reach:
                         if start_flag == 1 :
-                            ph = reach*0.3*2 - h
+                            ph = reach*distri*2 - h
                         else:
-                            ph = reach*0.3*2 - abs(h-reach*0.3)
-                        pr = reach*0.3*2 - abs(r-reach*0.3)
-                        p = p + ph*pr
+                            ph = reach*distri*2 - abs(h-reach*distri)
+                        pr = reach*distri*2 - abs(r-reach*distri)
+                        if list_forms[1] == 4:
+                            pa = 1
+                        else:
+                            if list_forms[1] == 1:
+                                base = hold_size[1]+(hold_size[2]-hold_size[1])/2
+                            elif list_forms[1] == 2:
+                                base = hold_size[2]
+                            else:
+                                base = hold_size[2]+(hold_size[0]-hold_size[2])/2
+                            
+                            pa = (hold_size[0]-hold_size[1]) - abs(input_list[i][3]-base)
+                            
+                        p = p + ph*pr*pa
                         list_temp = [i,p]
                         list_p.append(list_temp)
         rd = random.random()
@@ -71,7 +86,7 @@ def route_set(input_sf,input_list,name):
                 list_route_f.append(input_list[list_p[l][0]])
                 if list_route_f[k][2] <= border[1]:
                     if start_flag == 0:
-                        if list_route_f[k][3] < size[0]:
+                        if list_route_f[k][3] < border_size[0]:
                             list_s = [k]
                             start_flag = 1
                         else:
@@ -87,7 +102,7 @@ def route_set(input_sf,input_list,name):
                 list_p = []
                 break
         if list_route_f[k][2] <= border[2]:
-            if list_route_f[k][3] >= prm.size(name)[1]:
+            if list_route_f[k][3] >= border_size[1]:
                 route_sum = k+1
                 break
             else:
@@ -112,7 +127,8 @@ def route_set(input_sf,input_list,name):
 
 
 # 関数
-def make(name):
+def make(name, forms):
+
     list = make_list(prj_path.joinpath('csv/'+name+'/hold_list.csv'),name)
     list = pd.read_csv(prj_path.joinpath('csv/'+name+'/hold_list.csv'),header=None).values.tolist()
     
@@ -120,7 +136,7 @@ def make(name):
 
     sf = random.choice(list_start_foot)
 
-    list_route = route_set(sf,list,name)
+    list_route = route_set(sf,list,name,forms)
     
     return list_route    
 
