@@ -60,10 +60,10 @@ def route_set(input_sf,input_list,name,list_forms):
                     r = ((input_list[i][1]-list_route_f[k][1])**2 + h**2)**0.5
                     if r <= reach:
                         if start_flag == 1 :
-                            ph = reach*distri*2 - h
+                            ph = reach*(1+distri) - h
                         else:
-                            ph = reach*distri*2 - abs(h-reach*distri)
-                        pr = reach*distri*2 - abs(r-reach*distri)
+                            ph = reach*(1+distri) - abs(h-reach*distri)
+                        pr = reach*(1+distri) - abs(r-reach*distri)
                         if list_forms[1] == 4:
                             pa = 1
                         else:
