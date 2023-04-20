@@ -22,12 +22,12 @@ Size = (
 )
 
 Level = (
-    (15,"Easy"),
-    (30,"Normal"),
-    (45,"Hard"),
-    (60,"Harder"),
-    (75,"Hardest"),
-    (100,"Hell")
+    (15,"Very Easy"),
+    (30,"Easy"),
+    (45,"Normal"),
+    (60,"Hard"),
+    (75,"Very Hard"),
+    (100,"Hardest")
 )
 
 class CalcPlusForm(forms.Form):
