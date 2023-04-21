@@ -61,9 +61,10 @@ def route_set(input_sf,input_list,name,list_forms):
                     if r <= reach:
                         if start_flag == 1 :
                             ph = reach - h
+                            pr = reach - abs(r-reach*distri*0.5)
                         else:
                             ph = reach - abs(h-reach*distri)
-                        pr = reach - abs(r-reach*distri)
+                            pr = reach - abs(r-reach*distri)
                         if list_forms[1] == 4:
                             pa = 1
                         else:
@@ -76,6 +77,9 @@ def route_set(input_sf,input_list,name,list_forms):
                             
                             pa = (hold_size[0]-hold_size[1]) - abs(input_list[i][3]-base)
                             
+                        ph = ph**2
+                        pr = pr**2
+                        pa = pa**2
                         p = p + ph*pr*pa
                         list_temp = [i,p]
                         list_p.append(list_temp)
@@ -153,7 +157,7 @@ def print_prj(list_route,name):
         x = list_route[i][1]
         y = list_route[i][2]
         if list_route[i][4] ==1:
-            cv2.circle(wall, center=(x, y), radius=20, color=(0, 0, 255), thickness=3, lineType=cv2.LINE_4, shift=0)
+            cv2.circle(wall, center=(x, y), radius=25, color=(0, 0, 255), thickness=3, lineType=cv2.LINE_4, shift=0)
         elif list_route[i][4] ==2:
             cv2.circle(wall, center=(x, y), radius=30, color=(255, 0, 0), thickness=3, lineType=cv2.LINE_4, shift=0)
         else:
