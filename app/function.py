@@ -48,6 +48,7 @@ def route_set(input_sf,input_list,name,list_forms):
     j = 0
     start_flag = 0
     goal_flag = 0
+    route_sum = 0
     
     while j <= prm.MAX_NUM(name):
         j = j+1
@@ -74,9 +75,7 @@ def route_set(input_sf,input_list,name,list_forms):
                                 base = hold_size[2]
                             else:
                                 base = hold_size[2]+(hold_size[0]-hold_size[2])/2
-                            
                             pa = (hold_size[0]-hold_size[1]) - abs(input_list[i][3]-base)
-                            
                         ph = ph**2
                         pr = pr**2
                         pa = pa**2
@@ -111,6 +110,10 @@ def route_set(input_sf,input_list,name,list_forms):
                 break
             else:
                 goal_flag = 1
+    
+    if route_sum == 0:
+        route_sum = len(list_route_f)
+        print(len(list_route_f))
         
     list_route = []
     for i in range(route_sum):
